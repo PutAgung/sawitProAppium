@@ -1,6 +1,6 @@
-# Your Project Name
+# Automation Assessment
 
-Brief description or overview of your project.
+Appium test for completing the Assessment
 
 ## Table of Contents
 
