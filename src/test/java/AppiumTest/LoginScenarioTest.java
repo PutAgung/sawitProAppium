@@ -40,7 +40,7 @@ public class LoginScenarioTest {
 
     }
 
-    @Test
+    @Test(priority = 1)
     public void testLoginLogout() {
         driver.findElement(By.id("chat21.android.demo:id/email")).sendKeys("putrakatalon@gmail.com");
         driver.findElement(By.id("chat21.android.demo:id/password")).sendKeys("Kucing123!");
@@ -60,7 +60,20 @@ public class LoginScenarioTest {
         System.out.println("--- Test 1 Done ---");
     }
 
-    @Test(dependsOnMethods = "testLoginLogout")
+    @Test(priority = 2)
+    public void emptyValue(){
+        driver.findElement(By.id("chat21.android.demo:id/email")).sendKeys("");
+        driver.findElement(By.id("chat21.android.demo:id/password")).sendKeys("");
+        driver.findElement(By.id("chat21.android.demo:id/login")).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("chat21.android.demo:id/toolbar")));
+        Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/toolbar")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/signup")).isDisplayed());
+        System.out.println("--- Test 2 Done ---");
+    }
+
+    @Test(dependsOnMethods ="emptyValue")
     public void testWrongEmail(){
         driver.findElement(By.id("chat21.android.demo:id/email")).sendKeys("email");
         driver.findElement(By.id("chat21.android.demo:id/password")).sendKeys("Kucing123!");
@@ -70,7 +83,7 @@ public class LoginScenarioTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("chat21.android.demo:id/toolbar")));
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/toolbar")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/signup")).isDisplayed());
-        System.out.println("--- Test 2 Done ---");
+        System.out.println("--- Test 3 Done ---");
     }
 
     @AfterSuite
