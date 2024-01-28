@@ -8,8 +8,8 @@ import junit.framework.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
@@ -20,7 +20,7 @@ public class LoginScenarioTest {
 
     private AppiumDriver driver;
 
-    @BeforeMethod
+    @BeforeSuite
     public void setUp() throws MalformedURLException {
         UiAutomator2Options options = new UiAutomator2Options();
         options
@@ -57,9 +57,10 @@ public class LoginScenarioTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("chat21.android.demo:id/login")));
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/login")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/signup")).isDisplayed());
+        System.out.println("--- Test 1 Done ---");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testLoginLogout")
     public void testWrongEmail(){
         driver.findElement(By.id("chat21.android.demo:id/email")).sendKeys("email");
         driver.findElement(By.id("chat21.android.demo:id/password")).sendKeys("Kucing123!");
@@ -69,11 +70,12 @@ public class LoginScenarioTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("chat21.android.demo:id/toolbar")));
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/toolbar")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("chat21.android.demo:id/signup")).isDisplayed());
+        System.out.println("--- Test 2 Done ---");
     }
 
-    @AfterMethod
+    @AfterSuite
     public void tearDown() {
-        System.out.println("--- Done ---");
+        System.out.println("--- All Done ---");
         driver.quit();
     }
 }
